@@ -5,13 +5,12 @@ import plantas.*
 program granjavilla {
 
 	game.title("Farmville")
-	game.height(10)
-	game.width(25)
+	game.height(8)
+	game.width(15)
 	game.ground("ground.png")
 	
 	game.addVisual(hector)
-	
-	keyboard.h().onPressDo { game.say(hector, "Ya firmamos con RuTaTlAnTiCa") }
+	game.errorReporter(hector)
 	
 	keyboard.up().onPressDo { hector.move(hector.position().up(1)) }
 	keyboard.down().onPressDo { hector.move(hector.position().down(1)) }
@@ -22,7 +21,13 @@ program granjavilla {
 	keyboard.t().onPressDo{ hector.sembrar(new Trigo(etapa = 0, posicion = hector.position())) }
 	keyboard.o().onPressDo{ hector.sembrar(new Tomaco(posicion = hector.position())) }
 	
-	keyboard.r().onPressDo{ game.whenCollideDo(hector, {planta => hector.regar(planta)}) }
+	keyboard.r().onPressDo{ hector.regar(game.colliders(hector)) }
+	
+	keyboard.c().onPressDo{ hector.cosechar(game.colliders(hector)) }
+	
+	keyboard.v().onPressDo{ hector.venderPlantas() } 
+	
+	keyboard.space().onPressDo{ hector.mensaje()}
 
 	game.start()
 

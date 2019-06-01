@@ -1,40 +1,67 @@
 import wollok.game.*
 import hector.*
 
-class Plantas {
-	var property posicion
-		
-	method detecta(otraPlanta){
-		
+class Planta {
+	method cosecharse() {
+		if (self.estaListo()){
+			game.removeVisual(self)
+		}	
 	}
+	
+	method estaListo()
 }
 
 
-class Maiz inherits Plantas{
+class Maiz inherits Planta {
+	var property posicion
+	var riego = 0
 	
-	method image() = "corn_baby.png"
+	method valor() = 150
 	
-	method serRegada() = "corn.adult.png"
+	method image() {
+		if (riego >= 1) { return "corn_adult.png" }
+		else return "corn_baby.png"
+	} 
+	
+	method serRegada() { riego += 1 }
+	
+	override method estaListo() = riego >= 1
+	
 }
 
-class Trigo inherits Plantas {
+class Trigo inherits Planta{
+	var property posicion
 	var property etapa
 	
-	method image() = "wheat_0.png"
+	method valor() = ((etapa - 1) * 100).max(0)
 	
-	method serRegada() {
-		if (etapa == 1) { return "wheat_2.png" }
-		if (etapa == 2) { return "wheat_3.png" }
-		if (etapa == 3) { return self.image() }
-		else return "wheat_1.png"
+	method image() {
+		if (etapa == 0) { return "wheat_0.png" }
+		if (etapa == 1) { return "wheat_1.png" }
+		if (etapa == 2) { return "wheat_2.png" }
+		else return "wheat_3.png"
 	}
+	
+ 	method serRegada() {
+		etapa += 1
+		if (etapa > 3) { etapa = 0 }
+	}
+	
+	override method estaListo() = etapa >= 2
 }
 
-class Tomaco inherits Plantas{
+class Tomaco inherits Planta{
+	var property posicion
+	
+	method valor() = 80
 	
 	method image() = "tomaco.png"
 	
+	method moverse(nuevaPosicion) { self.posicion(nuevaPosicion) }
+	
 	method serRegada() {
-		posicion.moveUp(1)
+		self.moverse(self.posicion().up(1))
 	}
+	
+	override method estaListo() = true
 }
