@@ -42,7 +42,7 @@ object hector {
 	
 	method venderPlantas(){
 		if (self.plantasCosechadas() > 0){
-			oroAcumulado = plantasParaVender.sum{unaPlanta => unaPlanta.valor()}
+			oroAcumulado += plantasParaVender.sum{unaPlanta => unaPlanta.valor()}
 			plantasParaVender.clear()
 		}
 		else game.say(self, "No tengo plantas para vender")
