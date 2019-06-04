@@ -1,8 +1,9 @@
 import wollok.game.*
+import plantas.*
 
 object hector {
 	var property position = game.at(3,3)
-	var plantasParaVender = []
+	var plantasParaVender = #{}
 	var oroAcumulado = 0
 	
 	method image() = "player.png"
@@ -14,6 +15,8 @@ object hector {
 	}
 	
 	method plantasCosechadas() = plantasParaVender.size()
+	
+	method agregarPlanta(planta) { plantasParaVender.add(planta) }
 	
 	method monedas() = oroAcumulado
 	

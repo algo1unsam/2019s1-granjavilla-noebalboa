@@ -4,6 +4,7 @@ import hector.*
 class Planta {
 	method cosecharse() {
 		if (self.estaListo()){
+			hector.agregarPlanta(self)
 			game.removeVisual(self)
 		}	
 	}
@@ -33,7 +34,7 @@ class Trigo inherits Planta{
 	var property posicion
 	var property etapa
 	
-	method valor() = ((etapa - 1) * 100).max(0)
+	method valor() = (etapa - 1) * 100
 	
 	method image() {
 		if (etapa == 0) { return "wheat_0.png" }
